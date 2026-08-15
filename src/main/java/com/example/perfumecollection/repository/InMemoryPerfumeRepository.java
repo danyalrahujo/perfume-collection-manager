@@ -23,4 +23,8 @@ public class InMemoryPerfumeRepository {
 		return new ArrayList<>(perfumes.values());
 	}
 
+	public void update(Perfume perfume) {
+		perfumes.put(perfume.getId(), perfume);
+	}
+
 }

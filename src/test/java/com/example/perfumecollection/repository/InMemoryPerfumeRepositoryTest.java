@@ -33,4 +33,23 @@ public class InMemoryPerfumeRepositoryTest {
 
 		assertEquals(2, repository.findAll().size());
 	}
+
+	@Test
+	public void testUpdatePerfume() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		repository.create(perfume);
+
+		Perfume updatedPerfume = new Perfume("p001", "Sauvage Elixir", "Dior", "Woody", 60, 4.8);
+
+		repository.update(updatedPerfume);
+
+		Perfume result = repository.findById("p001");
+
+		assertEquals("Sauvage Elixir", result.getName());
+		assertEquals(60, result.getVolume());
+		assertEquals(4.8, result.getRating(), 0.01);
+	}
 }
