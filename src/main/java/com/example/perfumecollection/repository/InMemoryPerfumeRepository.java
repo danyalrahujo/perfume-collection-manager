@@ -27,4 +27,8 @@ public class InMemoryPerfumeRepository {
 		perfumes.put(perfume.getId(), perfume);
 	}
 
+	public void delete(String id) {
+		perfumes.remove(id);
+	}
+
 }

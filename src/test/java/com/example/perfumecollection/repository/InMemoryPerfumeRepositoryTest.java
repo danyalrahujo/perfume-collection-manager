@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.example.perfumecollection.model.Perfume;
+import static org.junit.Assert.assertNull;
 
 public class InMemoryPerfumeRepositoryTest {
 
@@ -51,5 +52,18 @@ public class InMemoryPerfumeRepositoryTest {
 		assertEquals("Sauvage Elixir", result.getName());
 		assertEquals(60, result.getVolume());
 		assertEquals(4.8, result.getRating(), 0.01);
+	}
+
+	@Test
+	public void testDeletePerfume() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		repository.create(perfume);
+
+		repository.delete("p001");
+
+		assertNull(repository.findById("p001"));
 	}
 }
