@@ -1,11 +1,11 @@
 package com.example.perfumecollection.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 import com.example.perfumecollection.model.Perfume;
-import static org.junit.Assert.assertNull;
 
 public class InMemoryPerfumeRepositoryTest {
 
@@ -66,4 +66,5 @@ public class InMemoryPerfumeRepositoryTest {
 
 		assertNull(repository.findById("p001"));
 	}
+
 }
