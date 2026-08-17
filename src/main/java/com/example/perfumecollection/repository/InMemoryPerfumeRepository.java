@@ -27,7 +27,9 @@ public class InMemoryPerfumeRepository implements PerfumeRepository {
 
 	@Override
 	public void update(Perfume perfume) {
-		perfumes.put(perfume.getId(), perfume);
+		if (perfumes.containsKey(perfume.getId())) {
+			perfumes.put(perfume.getId(), perfume);
+		}
 	}
 
 	@Override
