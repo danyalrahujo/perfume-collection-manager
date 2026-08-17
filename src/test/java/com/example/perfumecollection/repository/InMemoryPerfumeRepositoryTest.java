@@ -2,6 +2,8 @@ package com.example.perfumecollection.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import java.util.List;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -32,7 +34,11 @@ public class InMemoryPerfumeRepositoryTest {
 		repository.create(perfume1);
 		repository.create(perfume2);
 
-		assertEquals(2, repository.findAll().size());
+		List<Perfume> result = repository.findAll();
+
+		assertEquals(2, result.size());
+		assertTrue(result.contains(perfume1));
+		assertTrue(result.contains(perfume2));
 	}
 
 	@Test
@@ -65,6 +71,42 @@ public class InMemoryPerfumeRepositoryTest {
 		repository.delete("p001");
 
 		assertNull(repository.findById("p001"));
+	}
+
+	@Test
+	public void testFindAllReturnsEmptyListInitially() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		assertEquals(0, repository.findAll().size());
+	}
+
+	@Test
+	public void testFindByIdReturnsNullForUnknownId() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume result = repository.findById("unknown");
+
+		assertNull(result);
+	}
+
+	@Test
+	public void testDeleteUnknownIdDoesNotCrash() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		repository.delete("unknown");
+
+		assertEquals(0, repository.findAll().size());
+	}
+
+	@Test
+	public void testUpdateUnknownPerfumeDoesNotCreateNewPerfume() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume = new Perfume("unknown", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		repository.update(perfume);
+
+		assertNull(repository.findById("unknown"));
 	}
 
 }
