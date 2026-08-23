@@ -4,6 +4,7 @@ public class Perfume {
 
 	private String name;
 	private String brand;
+	private String fragranceFamily;
 
 	public Perfume() {
 	}
@@ -17,11 +18,21 @@ public class Perfume {
 		this.brand = brand;
 	}
 
+	public Perfume(String name, String brand, String fragranceFamily) {
+		this.name = name;
+		this.brand = brand;
+		this.fragranceFamily = fragranceFamily;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public String getBrand() {
 		return brand;
+	}
+
+	public String getFragranceFamily() {
+		return fragranceFamily;
 	}
 }
