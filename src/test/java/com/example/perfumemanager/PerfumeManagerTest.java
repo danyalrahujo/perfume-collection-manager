@@ -16,4 +16,16 @@ public class PerfumeManagerTest {
 
 		assertTrue(perfumes.isEmpty());
 	}
+
+	@Test
+	public void testAddPerfumeMakesItAppearInList() {
+		PerfumeManager perfumeManager = new PerfumeManager();
+		Perfume perfume = new Perfume();
+
+		perfumeManager.addPerfume(perfume);
+
+		List<Perfume> perfumes = perfumeManager.listPerfumes();
+
+		assertTrue(perfumes.contains(perfume));
+	}
 }
