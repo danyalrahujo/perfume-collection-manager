@@ -14,4 +14,8 @@ public class PerfumeManager {
 	public void addPerfume(Perfume perfume) {
 		perfumes.add(perfume);
 	}
+
+	public void deletePerfume(Perfume perfume) {
+		perfumes.remove(perfume);
+	}
 }
