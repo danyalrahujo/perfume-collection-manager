@@ -7,6 +7,7 @@ public class Perfume {
 	private String fragranceFamily;
 	private int volume;
 	private double rating;
+	private String id;
 
 	public Perfume() {
 	}
@@ -41,6 +42,16 @@ public class Perfume {
 		this.rating = rating;
 	}
 
+	public Perfume(String id, String name, String brand, String fragranceFamily, int volume, double rating) {
+
+		this.id = id;
+		this.name = name;
+		this.brand = brand;
+		this.fragranceFamily = fragranceFamily;
+		this.volume = volume;
+		this.rating = rating;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -59,5 +70,9 @@ public class Perfume {
 
 	public double getRating() {
 		return rating;
+	}
+
+	public String getId() {
+		return id;
 	}
 }
