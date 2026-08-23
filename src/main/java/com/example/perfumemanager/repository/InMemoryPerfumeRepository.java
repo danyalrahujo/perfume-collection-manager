@@ -16,4 +16,17 @@ public class InMemoryPerfumeRepository {
 	public void save(Perfume perfume) {
 		perfumes.add(perfume);
 	}
+
+	public Perfume findById(String id) {
+		for (Perfume perfume : perfumes) {
+			if (perfume.getId().equals(id)) {
+				return perfume;
+			}
+		}
+		return null;
+	}
+
+	public void delete(String id) {
+		perfumes.removeIf(perfume -> perfume.getId().equals(id));
+	}
 }
