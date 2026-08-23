@@ -50,4 +50,11 @@ public class PerfumeManagerTest {
 
 		assertEquals("Sauvage", perfume.getName());
 	}
+
+	@Test
+	public void testPerfumeHasBrand() {
+		Perfume perfume = new Perfume("Sauvage", "Dior");
+
+		assertEquals("Dior", perfume.getBrand());
+	}
 }
