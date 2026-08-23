@@ -7,7 +7,13 @@ import com.example.perfumemanager.Perfume;
 
 public class InMemoryPerfumeRepository {
 
+	private List<Perfume> perfumes = new ArrayList<>();
+
 	public List<Perfume> findAll() {
-		return new ArrayList<>();
+		return perfumes;
+	}
+
+	public void save(Perfume perfume) {
+		perfumes.add(perfume);
 	}
 }
