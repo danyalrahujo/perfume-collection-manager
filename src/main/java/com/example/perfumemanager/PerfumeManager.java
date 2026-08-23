@@ -5,7 +5,13 @@ import java.util.List;
 
 public class PerfumeManager {
 
+	private List<Perfume> perfumes = new ArrayList<>();
+
 	public List<Perfume> listPerfumes() {
-		return new ArrayList<>();
+		return perfumes;
+	}
+
+	public void addPerfume(Perfume perfume) {
+		perfumes.add(perfume);
 	}
 }
