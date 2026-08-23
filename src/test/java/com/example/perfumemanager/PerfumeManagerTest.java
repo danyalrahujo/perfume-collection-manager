@@ -71,4 +71,11 @@ public class PerfumeManagerTest {
 
 		assertEquals(100, perfume.getVolume());
 	}
+
+	@Test
+	public void testPerfumeHasRating() {
+		Perfume perfume = new Perfume("Sauvage", "Dior", "Woody", 100, 4.5);
+
+		assertEquals(4.5, perfume.getRating(), 0.0);
+	}
 }
