@@ -18,4 +18,17 @@ public class InMemoryPerfumeRepositoryTest {
 
 		assertTrue(perfumes.isEmpty());
 	}
+
+	@Test
+	public void testSavePerfumeMakesItAppearInFindAll() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		repository.save(perfume);
+
+		List<Perfume> perfumes = repository.findAll();
+
+		assertTrue(perfumes.contains(perfume));
+	}
 }
