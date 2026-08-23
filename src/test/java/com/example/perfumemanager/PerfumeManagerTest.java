@@ -57,4 +57,11 @@ public class PerfumeManagerTest {
 
 		assertEquals("Dior", perfume.getBrand());
 	}
+
+	@Test
+	public void testPerfumeHasFragranceFamily() {
+		Perfume perfume = new Perfume("Sauvage", "Dior", "Woody");
+
+		assertEquals("Woody", perfume.getFragranceFamily());
+	}
 }
