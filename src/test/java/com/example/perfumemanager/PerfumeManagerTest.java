@@ -1,6 +1,7 @@
 package com.example.perfumemanager;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
@@ -27,5 +28,18 @@ public class PerfumeManagerTest {
 		List<Perfume> perfumes = perfumeManager.listPerfumes();
 
 		assertTrue(perfumes.contains(perfume));
+	}
+
+	@Test
+	public void testDeletePerfumeRemovesItFromList() {
+		PerfumeManager perfumeManager = new PerfumeManager();
+		Perfume perfume = new Perfume();
+
+		perfumeManager.addPerfume(perfume);
+		perfumeManager.deletePerfume(perfume);
+
+		List<Perfume> perfumes = perfumeManager.listPerfumes();
+
+		assertFalse(perfumes.contains(perfume));
 	}
 }
