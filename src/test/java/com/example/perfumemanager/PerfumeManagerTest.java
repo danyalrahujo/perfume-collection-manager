@@ -78,4 +78,11 @@ public class PerfumeManagerTest {
 
 		assertEquals(4.5, perfume.getRating(), 0.0);
 	}
+
+	@Test
+	public void testPerfumeHasId() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		assertEquals("p001", perfume.getId());
+	}
 }
