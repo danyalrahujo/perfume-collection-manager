@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.example.perfumemanager.Perfume;
 
-public class InMemoryPerfumeRepository {
+public class InMemoryPerfumeRepository implements PerfumeRepository {
 
 	private List<Perfume> perfumes = new ArrayList<>();
 
