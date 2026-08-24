@@ -1,9 +1,11 @@
 package com.example.perfumemanager;
 
 import static org.junit.Assert.assertTrue;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
-
+import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
+import com.example.perfumemanager.repository.PerfumeRepository;
 import java.util.List;
 
 import org.junit.Test;
@@ -84,5 +86,19 @@ public class PerfumeManagerTest {
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
 		assertEquals("p001", perfume.getId());
+	}
+
+	@Test
+	public void testListPerfumesUsesRepository() {
+		PerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+		repository.save(perfume);
+
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
+
+		List<Perfume> perfumes = perfumeManager.listPerfumes();
+
+		assertTrue(perfumes.contains(perfume));
 	}
 }
