@@ -1,21 +1,27 @@
 package com.example.perfumemanager;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.example.perfumemanager.repository.PerfumeRepository;
 
 public class PerfumeManager {
 
-	private List<Perfume> perfumes = new ArrayList<>();
+	private PerfumeRepository repository;
+
+	public PerfumeManager(PerfumeRepository repository) {
+		this.repository = repository;
+	}
 
 	public List<Perfume> listPerfumes() {
-		return perfumes;
+		return repository.findAll();
 	}
 
 	public void addPerfume(Perfume perfume) {
-		perfumes.add(perfume);
+		repository.save(perfume);
 	}
 
 	public void deletePerfume(Perfume perfume) {
-		perfumes.remove(perfume);
+		repository.delete(perfume.getId());
 	}
+
 }
