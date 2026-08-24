@@ -1,18 +1,22 @@
 package com.example.perfumemanager;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Test;
 
+import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
+import com.example.perfumemanager.repository.PerfumeRepository;
+
 public class PerfumeManagerTest {
 
 	@Test
 	public void testListPerfumesWhenNoPerfumesArePresent() {
-		PerfumeManager perfumeManager = new PerfumeManager();
+		PerfumeRepository repository = new InMemoryPerfumeRepository();
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
 
 		List<Perfume> perfumes = perfumeManager.listPerfumes();
 
@@ -21,7 +25,9 @@ public class PerfumeManagerTest {
 
 	@Test
 	public void testAddPerfumeMakesItAppearInList() {
-		PerfumeManager perfumeManager = new PerfumeManager();
+		PerfumeRepository repository = new InMemoryPerfumeRepository();
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
+
 		Perfume perfume = new Perfume();
 
 		perfumeManager.addPerfume(perfume);
@@ -33,8 +39,10 @@ public class PerfumeManagerTest {
 
 	@Test
 	public void testDeletePerfumeRemovesItFromList() {
-		PerfumeManager perfumeManager = new PerfumeManager();
-		Perfume perfume = new Perfume();
+		PerfumeRepository repository = new InMemoryPerfumeRepository();
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
 		perfumeManager.addPerfume(perfume);
 		perfumeManager.deletePerfume(perfume);
@@ -84,5 +92,19 @@ public class PerfumeManagerTest {
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
 		assertEquals("p001", perfume.getId());
+	}
+
+	@Test
+	public void testListPerfumesUsesRepository() {
+		PerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+		repository.save(perfume);
+
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
+
+		List<Perfume> perfumes = perfumeManager.listPerfumes();
+
+		assertTrue(perfumes.contains(perfume));
 	}
 }
