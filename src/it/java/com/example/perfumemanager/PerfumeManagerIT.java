@@ -24,4 +24,19 @@ public class PerfumeManagerIT {
 
 		assertTrue(perfumes.contains(perfume));
 	}
+
+	@Test
+	public void testDeletePerfumeRemovesItUsingRealRepository() {
+		PerfumeRepository repository = new InMemoryPerfumeRepository();
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		perfumeManager.addPerfume(perfume);
+		perfumeManager.deletePerfume(perfume);
+
+		List<Perfume> perfumes = perfumeManager.listPerfumes();
+
+		assertTrue(perfumes.isEmpty());
+	}
 }
