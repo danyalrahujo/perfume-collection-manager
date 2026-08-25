@@ -1,7 +1,8 @@
-package com.example.perfumemanager;
+package com.example.perfumemanager.controller;
 
 import java.util.List;
 
+import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.PerfumeRepository;
 
 public class PerfumeManager {

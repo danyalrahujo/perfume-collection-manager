@@ -1,7 +1,8 @@
 package com.example.perfumemanager.repository;
 
-import com.example.perfumemanager.Perfume;
 import java.util.List;
+
+import com.example.perfumemanager.model.Perfume;
 
 public interface PerfumeRepository {
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import org.testcontainers.mongodb.MongoDBContainer;
 
-import com.example.perfumemanager.Perfume;
+import com.example.perfumemanager.model.Perfume;
 
 public class MongoPerfumeRepositoryIT {
 

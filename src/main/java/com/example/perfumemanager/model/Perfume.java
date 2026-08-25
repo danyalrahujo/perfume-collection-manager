@@ -1,4 +1,4 @@
-package com.example.perfumemanager;
+package com.example.perfumemanager.model;
 
 public class Perfume {
 

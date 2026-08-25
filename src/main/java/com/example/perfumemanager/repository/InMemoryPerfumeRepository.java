@@ -3,7 +3,7 @@ package com.example.perfumemanager.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.perfumemanager.Perfume;
+import com.example.perfumemanager.model.Perfume;
 
 public class InMemoryPerfumeRepository implements PerfumeRepository {
 
