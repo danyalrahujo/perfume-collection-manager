@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -110,4 +111,17 @@ public class PerfumeManagerTest {
 
 		assertTrue(perfumes.contains(perfume));
 	}
+
+	@Test
+	public void testAddPerfumeSavesItInRepository() {
+		PerfumeRepository repository = mock(PerfumeRepository.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository);
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		perfumeManager.addPerfume(perfume);
+
+		verify(repository).save(perfume);
+	}
+
 }
