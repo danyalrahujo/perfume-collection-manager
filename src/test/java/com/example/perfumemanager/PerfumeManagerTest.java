@@ -3,6 +3,8 @@ package com.example.perfumemanager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -96,10 +98,11 @@ public class PerfumeManagerTest {
 
 	@Test
 	public void testListPerfumesUsesRepository() {
-		PerfumeRepository repository = new InMemoryPerfumeRepository();
+		PerfumeRepository repository = mock(PerfumeRepository.class);
 
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
-		repository.save(perfume);
+
+		when(repository.findAll()).thenReturn(List.of(perfume));
 
 		PerfumeManager perfumeManager = new PerfumeManager(repository);
 
