@@ -89,4 +89,18 @@ public class InMemoryPerfumeRepositoryTest {
 		assertTrue(perfumes.contains(first));
 		assertTrue(perfumes.contains(second));
 	}
+
+	@Test
+	public void testUpdateReplacesExistingPerfume() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume original = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		Perfume updated = new Perfume("p001", "Sauvage Elixir", "Dior", "Woody", 60, 4.8);
+
+		repository.save(original);
+		repository.update(updated);
+
+		assertEquals(updated, repository.findById("p001"));
+	}
 }
