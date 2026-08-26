@@ -49,5 +49,9 @@ public class PerfumeManager {
 
 	public void updatePerfume(Perfume perfume) {
 		repository.update(perfume);
+
+		if (view != null) {
+			view.perfumeUpdated(perfume);
+		}
 	}
 }
