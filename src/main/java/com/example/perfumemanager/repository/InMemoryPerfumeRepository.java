@@ -17,6 +17,15 @@ public class InMemoryPerfumeRepository implements PerfumeRepository {
 		perfumes.add(perfume);
 	}
 
+	public void update(Perfume perfume) {
+		for (int i = 0; i < perfumes.size(); i++) {
+			if (perfumes.get(i).getId().equals(perfume.getId())) {
+				perfumes.set(i, perfume);
+				return;
+			}
+		}
+	}
+
 	public Perfume findById(String id) {
 		for (Perfume perfume : perfumes) {
 			if (perfume.getId().equals(id)) {
