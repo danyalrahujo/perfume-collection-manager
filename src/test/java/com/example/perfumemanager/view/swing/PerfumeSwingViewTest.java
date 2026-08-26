@@ -74,4 +74,23 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(perfumeManager).addPerfume(new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5));
 	}
+
+	@Test
+	public void testWhenAddButtonIsClickedThenInputFieldsShouldBeCleared() {
+		window.textBox("idTextBox").enterText("p001");
+		window.textBox("nameTextBox").enterText("Sauvage");
+		window.textBox("brandTextBox").enterText("Dior");
+		window.textBox("fragrancefamilyTextBox").enterText("Woody");
+		window.textBox("volumeTextBox").enterText("100");
+		window.textBox("ratingTextBox").enterText("4.5");
+
+		window.button(JButtonMatcher.withText("Add")).click();
+
+		window.textBox("idTextBox").requireText("");
+		window.textBox("nameTextBox").requireText("");
+		window.textBox("brandTextBox").requireText("");
+		window.textBox("fragrancefamilyTextBox").requireText("");
+		window.textBox("volumeTextBox").requireText("");
+		window.textBox("ratingTextBox").requireText("");
+	}
 }

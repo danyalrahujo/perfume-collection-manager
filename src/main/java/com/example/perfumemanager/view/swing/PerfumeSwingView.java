@@ -301,6 +301,13 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 				Double.parseDouble(txtRating.getText()));
 
 		perfumeManager.addPerfume(perfume);
+
+		txtId.setText("");
+		txtName.setText("");
+		txtBrand.setText("");
+		txtFragranceFamily.setText("");
+		txtVolume.setText("");
+		txtRating.setText("");
 	}
 
 	@Override
