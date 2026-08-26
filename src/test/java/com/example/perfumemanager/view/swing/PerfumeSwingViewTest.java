@@ -164,4 +164,56 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.label("errorMessageLabel").requireText("Perfume already exists");
 	}
+
+	@Test
+	public void testWhenPerfumeIsSelectedThenItsDetailsShouldAppearInInputFields() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(perfume));
+		});
+
+		window.list("perfumeList").selectItem(0);
+
+		window.textBox("idTextBox").requireText("p001");
+		window.textBox("nameTextBox").requireText("Sauvage");
+		window.textBox("brandTextBox").requireText("Dior");
+		window.textBox("fragrancefamilyTextBox").requireText("Woody");
+		window.textBox("volumeTextBox").requireText("100");
+		window.textBox("ratingTextBox").requireText("4.5");
+	}
+
+	@Test
+	public void testWhenPerfumeIsSelectedThenUpdateButtonShouldBeEnabled() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(perfume));
+		});
+
+		window.list("perfumeList").selectItem(0);
+
+		window.button(JButtonMatcher.withText("Update")).requireEnabled();
+	}
+
+	@Test
+	public void testWhenUpdateButtonIsClickedThenPerfumeManagerShouldUpdatePerfume() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(perfume));
+		});
+
+		window.list("perfumeList").selectItem(0);
+
+		window.textBox("nameTextBox").selectAll().enterText("Sauvage Elixir");
+		window.textBox("brandTextBox").selectAll().enterText("Dior");
+		window.textBox("fragrancefamilyTextBox").selectAll().enterText("Spicy");
+		window.textBox("volumeTextBox").selectAll().enterText("60");
+		window.textBox("ratingTextBox").selectAll().enterText("4.8");
+
+		window.button(JButtonMatcher.withText("Update")).click();
+
+		verify(perfumeManager).updatePerfume(new Perfume("p001", "Sauvage Elixir", "Dior", "Spicy", 60, 4.8));
+	}
 }

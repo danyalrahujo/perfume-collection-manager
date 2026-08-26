@@ -66,4 +66,10 @@ public class MongoPerfumeRepository implements PerfumeRepository {
 		return new Perfume(document.getString("_id"), document.getString("name"), document.getString("brand"),
 				document.getString("fragranceFamily"), document.getInteger("volume"), document.getDouble("rating"));
 	}
+
+	@Override
+	public void update(Perfume perfume) {
+		// TODO Auto-generated method stub
+
+	}
 }

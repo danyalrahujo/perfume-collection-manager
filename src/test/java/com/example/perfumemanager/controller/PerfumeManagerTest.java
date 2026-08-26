@@ -130,4 +130,31 @@ public class PerfumeManagerTest {
 		verify(perfumeView).perfumeRemoved(perfume);
 	}
 
+	@Test
+	public void testUpdatePerfumeUpdatesItInRepository() {
+		PerfumeRepository repository = mock(PerfumeRepository.class);
+		PerfumeView view = mock(PerfumeView.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
+
+		Perfume perfume = new Perfume("p001", "Sauvage Elixir", "Dior", "Woody", 100, 4.8);
+
+		perfumeManager.updatePerfume(perfume);
+
+		verify(repository).update(perfume);
+	}
+
+	@Test
+	public void testUpdatePerfumeNotifiesView() {
+		PerfumeRepository repository = mock(PerfumeRepository.class);
+		PerfumeView view = mock(PerfumeView.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		perfumeManager.updatePerfume(perfume);
+
+		verify(repository).update(perfume);
+		verify(view).perfumeUpdated(perfume);
+	}
+
 }

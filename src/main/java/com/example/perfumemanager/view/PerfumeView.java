@@ -13,4 +13,6 @@ public interface PerfumeView {
 	void perfumeAdded(Perfume perfume);
 
 	void perfumeRemoved(Perfume perfume);
+
+	void perfumeUpdated(Perfume perfume);
 }

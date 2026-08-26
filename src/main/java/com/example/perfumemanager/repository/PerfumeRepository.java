@@ -8,6 +8,8 @@ public interface PerfumeRepository {
 
 	void save(Perfume perfume);
 
+	void update(Perfume perfume);
+
 	List<Perfume> findAll();
 
 	Perfume findById(String id);
