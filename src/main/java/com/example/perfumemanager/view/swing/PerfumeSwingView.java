@@ -361,9 +361,7 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 	}
 
 	private void updatePerfume() {
-		Perfume selectedPerfume = perfumeList.getSelectedValue();
-
-		if (selectedPerfume != null) {
+		if (perfumeList.getSelectedValue() != null) {
 			Perfume updatedPerfume = new Perfume(txtId.getText(), txtName.getText(), txtBrand.getText(),
 					txtFragranceFamily.getText(), Integer.parseInt(txtVolume.getText()),
 					Double.parseDouble(txtRating.getText()));
