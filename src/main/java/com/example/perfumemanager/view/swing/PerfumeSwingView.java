@@ -285,7 +285,18 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 		perfumeList.addListSelectionListener(e -> {
 
-			btnDeleteSelected.setEnabled(!perfumeList.isSelectionEmpty());
+			Perfume selectedPerfume = perfumeList.getSelectedValue();
+
+			btnDeleteSelected.setEnabled(selectedPerfume != null);
+
+			if (selectedPerfume != null) {
+				txtId.setText(selectedPerfume.getId());
+				txtName.setText(selectedPerfume.getName());
+				txtBrand.setText(selectedPerfume.getBrand());
+				txtFragranceFamily.setText(selectedPerfume.getFragranceFamily());
+				txtVolume.setText(String.valueOf(selectedPerfume.getVolume()));
+				txtRating.setText(String.valueOf(selectedPerfume.getRating()));
+			}
 
 		});
 
@@ -348,5 +359,11 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 	public void perfumeRemoved(Perfume perfume) {
 		perfumeListModel.removeElement(perfume);
 		btnDeleteSelected.setEnabled(false);
+	}
+
+	@Override
+	public void perfumeUpdated(Perfume perfume) {
+		// TODO Auto-generated method stub
+
 	}
 }
