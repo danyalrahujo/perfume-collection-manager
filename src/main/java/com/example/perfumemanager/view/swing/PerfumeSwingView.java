@@ -24,7 +24,6 @@ import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
 import com.example.perfumemanager.repository.PerfumeRepository;
 import com.example.perfumemanager.view.PerfumeView;
-import java.awt.event.ActionListener;
 
 public class PerfumeSwingView extends JFrame implements PerfumeView {
 
@@ -276,6 +275,14 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 		btnDeleteSelected.setEnabled(false);
 
+		btnDeleteSelected.addActionListener(e -> {
+			Perfume selectedPerfume = perfumeList.getSelectedValue();
+
+			if (selectedPerfume != null) {
+				perfumeManager.deletePerfume(selectedPerfume);
+			}
+		});
+
 		perfumeList.addListSelectionListener(e -> {
 
 			btnDeleteSelected.setEnabled(!perfumeList.isSelectionEmpty());
@@ -329,16 +336,17 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 	@Override
 	public void showError(String message, Perfume perfume) {
-		// TODO Auto-generated method stub
+		lblErrorMessage.setText(message);
 	}
 
 	@Override
 	public void perfumeAdded(Perfume perfume) {
-		// TODO Auto-generated method stub
+		perfumeListModel.addElement(perfume);
 	}
 
 	@Override
 	public void perfumeRemoved(Perfume perfume) {
-		// TODO Auto-generated method stub
+		perfumeListModel.removeElement(perfume);
+		btnDeleteSelected.setEnabled(false);
 	}
 }
