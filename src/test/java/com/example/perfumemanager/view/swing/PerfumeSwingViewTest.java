@@ -164,4 +164,22 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.label("errorMessageLabel").requireText("Perfume already exists");
 	}
+
+	@Test
+	public void testWhenPerfumeIsSelectedThenItsDetailsShouldAppearInInputFields() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(perfume));
+		});
+
+		window.list("perfumeList").selectItem(0);
+
+		window.textBox("idTextBox").requireText("p001");
+		window.textBox("nameTextBox").requireText("Sauvage");
+		window.textBox("brandTextBox").requireText("Dior");
+		window.textBox("fragrancefamilyTextBox").requireText("Woody");
+		window.textBox("volumeTextBox").requireText("100");
+		window.textBox("ratingTextBox").requireText("4.5");
+	}
 }
