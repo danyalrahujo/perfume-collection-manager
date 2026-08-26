@@ -75,4 +75,27 @@ public class Perfume {
 	public String getId() {
 		return id;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+
+		Perfume other = (Perfume) obj;
+
+		return volume == other.volume && Double.compare(rating, other.rating) == 0
+				&& java.util.Objects.equals(id, other.id) && java.util.Objects.equals(name, other.name)
+				&& java.util.Objects.equals(brand, other.brand)
+				&& java.util.Objects.equals(fragranceFamily, other.fragranceFamily);
+	}
+
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hash(id, name, brand, fragranceFamily, volume, rating);
+	}
 }

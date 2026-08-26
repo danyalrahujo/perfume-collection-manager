@@ -24,6 +24,7 @@ import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
 import com.example.perfumemanager.repository.PerfumeRepository;
 import com.example.perfumemanager.view.PerfumeView;
+import java.awt.event.ActionListener;
 
 public class PerfumeSwingView extends JFrame implements PerfumeView {
 
@@ -218,6 +219,7 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 		btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
+		btnAdd.addActionListener(e -> addPerfume());
 
 		DocumentListener addButtonListener = new DocumentListener() {
 
@@ -291,6 +293,14 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 	public void setPerfumeManager(PerfumeManager perfumeManager) {
 		this.perfumeManager = perfumeManager;
+	}
+
+	private void addPerfume() {
+		Perfume perfume = new Perfume(txtId.getText(), txtName.getText(), txtBrand.getText(),
+				txtFragranceFamily.getText(), Integer.parseInt(txtVolume.getText()),
+				Double.parseDouble(txtRating.getText()));
+
+		perfumeManager.addPerfume(perfume);
 	}
 
 	@Override

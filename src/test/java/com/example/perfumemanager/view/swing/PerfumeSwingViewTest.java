@@ -1,5 +1,8 @@
 package com.example.perfumemanager.view.swing;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
@@ -9,15 +12,25 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.example.perfumemanager.controller.PerfumeManager;
+import com.example.perfumemanager.model.Perfume;
+
 @RunWith(GUITestRunner.class)
 public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	private PerfumeSwingView perfumeSwingView;
 	private FrameFixture window;
+	private PerfumeManager perfumeManager;
 
 	@Override
 	protected void onSetUp() {
-		perfumeSwingView = GuiActionRunner.execute(() -> new PerfumeSwingView());
+		perfumeManager = mock(PerfumeManager.class);
+
+		perfumeSwingView = GuiActionRunner.execute(() -> {
+			PerfumeSwingView view = new PerfumeSwingView();
+			view.setPerfumeManager(perfumeManager);
+			return view;
+		});
 
 		window = new FrameFixture(robot(), perfumeSwingView);
 		window.show();
@@ -46,5 +59,19 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox("nameTextBox").enterText("test");
 
 		window.button(JButtonMatcher.withText("Add")).requireEnabled();
+	}
+
+	@Test
+	public void testWhenAddButtonIsClickedThenPerfumeManagerShouldAddPerfume() {
+		window.textBox("idTextBox").enterText("p001");
+		window.textBox("nameTextBox").enterText("Sauvage");
+		window.textBox("brandTextBox").enterText("Dior");
+		window.textBox("fragrancefamilyTextBox").enterText("Woody");
+		window.textBox("volumeTextBox").enterText("100");
+		window.textBox("ratingTextBox").enterText("4.5");
+
+		window.button(JButtonMatcher.withText("Add")).click();
+
+		verify(perfumeManager).addPerfume(new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5));
 	}
 }
