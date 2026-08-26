@@ -1,4 +1,4 @@
-package com.example.perfumemanager;
+package com.example.perfumemanager.controller;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
 import com.example.perfumemanager.repository.PerfumeRepository;
 

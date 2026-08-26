@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.example.perfumemanager.Perfume;
+import com.example.perfumemanager.model.Perfume;
 
 public class InMemoryPerfumeRepositoryTest {
 

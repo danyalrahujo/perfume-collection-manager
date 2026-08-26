@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 
-import com.example.perfumemanager.Perfume;
+import com.example.perfumemanager.model.Perfume;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
