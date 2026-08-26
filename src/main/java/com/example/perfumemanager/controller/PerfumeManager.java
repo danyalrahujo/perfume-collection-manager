@@ -46,4 +46,8 @@ public class PerfumeManager {
 			view.perfumeRemoved(perfume);
 		}
 	}
+
+	public void updatePerfume(Perfume perfume) {
+		repository.update(perfume);
+	}
 }
