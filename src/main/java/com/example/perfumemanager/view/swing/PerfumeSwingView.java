@@ -1,6 +1,9 @@
 package com.example.perfumemanager.view.swing;
 
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -13,16 +16,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.example.perfumemanager.controller.PerfumeManager;
 import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
 import com.example.perfumemanager.repository.PerfumeRepository;
 import com.example.perfumemanager.view.PerfumeView;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class PerfumeSwingView extends JFrame implements PerfumeView {
 
@@ -95,6 +96,7 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		contentPane.setLayout(gbl_contentPane);
 
 		JLabel lblNewLabel = new JLabel("id");
+
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -114,6 +116,7 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		txtId.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("name");
+
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
@@ -216,6 +219,31 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
 
+		DocumentListener addButtonListener = new DocumentListener() {
+
+			private void updateAddButton() {
+				btnAdd.setEnabled(!txtId.getText().trim().isEmpty() && !txtName.getText().trim().isEmpty());
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				updateAddButton();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				updateAddButton();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				updateAddButton();
+			}
+		};
+
+		txtId.getDocument().addDocumentListener(addButtonListener);
+		txtName.getDocument().addDocumentListener(addButtonListener);
+
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridwidth = 2;
@@ -251,7 +279,7 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		gbc_btnNewButton_1.gridy = 8;
 		contentPane.add(btnDeleteSelected, gbc_btnNewButton_1);
 
-		lblErrorMessage = new JLabel("");
+		lblErrorMessage = new JLabel(" ");
 		lblErrorMessage.setName("errorMessageLabel");
 
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
