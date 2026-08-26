@@ -33,9 +33,17 @@ public class PerfumeManager {
 
 	public void addPerfume(Perfume perfume) {
 		repository.save(perfume);
+
+		if (view != null) {
+			view.perfumeAdded(perfume);
+		}
 	}
 
 	public void deletePerfume(Perfume perfume) {
 		repository.delete(perfume.getId());
+
+		if (view != null) {
+			view.perfumeRemoved(perfume);
+		}
 	}
 }
