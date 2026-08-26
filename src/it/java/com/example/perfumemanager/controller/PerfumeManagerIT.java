@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.example.perfumemanager.controller.PerfumeManager;
 import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
 import com.example.perfumemanager.repository.PerfumeRepository;

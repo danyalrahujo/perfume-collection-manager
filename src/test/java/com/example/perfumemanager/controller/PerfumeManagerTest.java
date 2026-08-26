@@ -1,6 +1,5 @@
 package com.example.perfumemanager.controller;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -14,13 +13,15 @@ import org.junit.Test;
 import com.example.perfumemanager.model.Perfume;
 import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
 import com.example.perfumemanager.repository.PerfumeRepository;
+import com.example.perfumemanager.view.PerfumeView;
 
 public class PerfumeManagerTest {
 
 	@Test
 	public void testListPerfumesWhenNoPerfumesArePresent() {
 		PerfumeRepository repository = new InMemoryPerfumeRepository();
-		PerfumeManager perfumeManager = new PerfumeManager(repository);
+		PerfumeView view = mock(PerfumeView.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
 		List<Perfume> perfumes = perfumeManager.listPerfumes();
 
@@ -30,7 +31,8 @@ public class PerfumeManagerTest {
 	@Test
 	public void testAddPerfumeMakesItAppearInList() {
 		PerfumeRepository repository = new InMemoryPerfumeRepository();
-		PerfumeManager perfumeManager = new PerfumeManager(repository);
+		PerfumeView view = mock(PerfumeView.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
 		Perfume perfume = new Perfume();
 
@@ -44,7 +46,8 @@ public class PerfumeManagerTest {
 	@Test
 	public void testDeletePerfumeRemovesItFromList() {
 		PerfumeRepository repository = new InMemoryPerfumeRepository();
-		PerfumeManager perfumeManager = new PerfumeManager(repository);
+		PerfumeView view = mock(PerfumeView.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
@@ -59,12 +62,13 @@ public class PerfumeManagerTest {
 	@Test
 	public void testListPerfumesUsesRepository() {
 		PerfumeRepository repository = mock(PerfumeRepository.class);
+		PerfumeView view = mock(PerfumeView.class);
 
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
 		when(repository.findAll()).thenReturn(List.of(perfume));
 
-		PerfumeManager perfumeManager = new PerfumeManager(repository);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
 		List<Perfume> perfumes = perfumeManager.listPerfumes();
 
@@ -74,13 +78,30 @@ public class PerfumeManagerTest {
 	@Test
 	public void testAddPerfumeSavesItInRepository() {
 		PerfumeRepository repository = mock(PerfumeRepository.class);
-		PerfumeManager perfumeManager = new PerfumeManager(repository);
+		PerfumeView view = mock(PerfumeView.class);
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
 		perfumeManager.addPerfume(perfume);
 
 		verify(repository).save(perfume);
+	}
+
+	@Test
+	public void testListPerfumesShowsThemInView() {
+		PerfumeRepository repository = mock(PerfumeRepository.class);
+		PerfumeView view = mock(PerfumeView.class);
+
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		when(repository.findAll()).thenReturn(List.of(perfume));
+
+		PerfumeManager perfumeManager = new PerfumeManager(repository, view);
+
+		perfumeManager.listPerfumes();
+
+		verify(view).showAllPerfumes(List.of(perfume));
 	}
 
 }
