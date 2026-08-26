@@ -269,10 +269,18 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		scrollPane.setViewportView(perfumeList);
 
 		perfumeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		perfumeList.setName("perfumeList");
 
 		btnDeleteSelected = new JButton("Delete Selected");
+
 		btnDeleteSelected.setEnabled(false);
+
+		perfumeList.addListSelectionListener(e -> {
+
+			btnDeleteSelected.setEnabled(!perfumeList.isSelectionEmpty());
+
+		});
 
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);

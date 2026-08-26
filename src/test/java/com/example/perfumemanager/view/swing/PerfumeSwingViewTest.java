@@ -93,4 +93,15 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox("volumeTextBox").requireText("");
 		window.textBox("ratingTextBox").requireText("");
 	}
+
+	@Test
+	public void testWhenPerfumeIsSelectedThenDeleteButtonShouldBeEnabled() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		GuiActionRunner.execute(() -> perfumeSwingView.showAllPerfumes(java.util.List.of(perfume)));
+
+		window.list("perfumeList").selectItem(0);
+
+		window.button(JButtonMatcher.withText("Delete Selected")).requireEnabled();
+	}
 }
