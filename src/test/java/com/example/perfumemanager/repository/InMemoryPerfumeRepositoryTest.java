@@ -103,4 +103,20 @@ public class InMemoryPerfumeRepositoryTest {
 
 		assertEquals(updated, repository.findById("p001"));
 	}
+
+	@Test
+	public void testUpdateDoesNothingWhenPerfumeDoesNotExist() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume existing = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		Perfume updated = new Perfume("p002", "Aventus", "Creed", "Fruity", 100, 4.7);
+
+		repository.save(existing);
+		repository.update(updated);
+
+		assertEquals(1, repository.findAll().size());
+		assertEquals(existing, repository.findById("p001"));
+		assertNull(repository.findById("p002"));
+	}
 }

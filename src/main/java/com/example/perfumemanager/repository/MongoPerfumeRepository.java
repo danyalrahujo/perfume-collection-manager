@@ -69,7 +69,10 @@ public class MongoPerfumeRepository implements PerfumeRepository {
 
 	@Override
 	public void update(Perfume perfume) {
-		// TODO Auto-generated method stub
+		Document document = new Document("name", perfume.getName()).append("brand", perfume.getBrand())
+				.append("fragranceFamily", perfume.getFragranceFamily()).append("volume", perfume.getVolume())
+				.append("rating", perfume.getRating());
 
+		collection.updateOne(eq("_id", perfume.getId()), new Document("$set", document));
 	}
 }
