@@ -25,4 +25,4 @@ jobs:
           cache: maven
 
       - name: Build and test
-        run: mvn clean verify
+        run: xvfb-run --auto-servernum mvn clean verify
