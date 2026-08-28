@@ -15,6 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<pitest-maven-version>1.20.3</pitest-maven-version>
 	</properties>
 
 	<dependencies>
@@ -107,7 +108,71 @@
 				</executions>
 			</plugin>
 
+			<!-- PIT Mutation Testing -->
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>${pitest-maven-version}</version>
+
+				<configuration>
+
+					<targetClasses>
+						<param>com.example.perfumemanager.controller.*</param>
+						<param>com.example.perfumemanager.repository.*</param>
+					</targetClasses>
+
+					<targetTests>
+						<param>com.example.perfumemanager.controller.*</param>
+						<param>com.example.perfumemanager.repository.*</param>
+					</targetTests>
+
+					<excludedTestClasses>
+						<param>*IT</param>
+					</excludedTestClasses>
+
+					<mutators>
+						<mutator>DEFAULTS</mutator>
+					</mutators>
+
+					<mutationThreshold>80</mutationThreshold>
+
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
+
+	<profiles>
+
+		<profile>
+			<id>pit-mutation-testing</id>
+
+			<build>
+				<plugins>
+
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+
+						<executions>
+							<execution>
+
+								<phase>verify</phase>
+
+								<goals>
+									<goal>mutationCoverage</goal>
+								</goals>
+
+							</execution>
+						</executions>
+
+					</plugin>
+
+				</plugins>
+			</build>
+
+		</profile>
+
+	</profiles>
 
 </project>

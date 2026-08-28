@@ -119,4 +119,20 @@ public class InMemoryPerfumeRepositoryTest {
 		assertEquals(existing, repository.findById("p001"));
 		assertNull(repository.findById("p002"));
 	}
+
+	@Test
+	public void testDeleteRemovesOnlyMatchingPerfume() {
+		InMemoryPerfumeRepository repository = new InMemoryPerfumeRepository();
+
+		Perfume perfume1 = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+		Perfume perfume2 = new Perfume("p002", "Bleu de Chanel", "Chanel", "Fresh", 100, 4.6);
+
+		repository.save(perfume1);
+		repository.save(perfume2);
+
+		repository.delete("p001");
+
+		assertNull(repository.findById("p001"));
+		assertEquals(perfume2, repository.findById("p002"));
+	}
 }
