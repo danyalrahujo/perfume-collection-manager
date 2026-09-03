@@ -5,61 +5,46 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.testcontainers.mongodb.MongoDBContainer;
-
 import com.example.perfumemanager.model.Perfume;
-import org.junit.Before;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
+import org.testcontainers.mongodb.MongoDBContainer;
+
 public class MongoPerfumeRepositoryIT {
 
-	private static final MongoDBContainer mongoDB =
+	private static final MongoDBContainer mongoDB = new MongoDBContainer("mongo:7.0");
 
-			new MongoDBContainer("mongo:7.0");
+	private MongoClient mongoClient;
 
 	@BeforeClass
-
 	public static void setUp() {
-
 		mongoDB.start();
-
 	}
 
 	@AfterClass
-
 	public static void tearDown() {
-
 		mongoDB.stop();
-
 	}
 
 	@Before
-
 	public void cleanDatabase() {
 
-		try (MongoClient client =
+		mongoClient = MongoClients.create(mongoDB.getConnectionString());
 
-				MongoClients.create(mongoDB.getConnectionString())) {
-
-			client.getDatabase("perfume_manager")
-
-					.getCollection("perfumes")
-
-					.deleteMany(new org.bson.Document());
-
-		}
-
+		mongoClient.getDatabase("perfume_manager").getCollection("perfumes").deleteMany(new Document());
 	}
 
 	@Test
 	public void testSaveAndFindAll() {
 
-		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoDB.getConnectionString());
+		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, "perfume_manager", "perfumes");
 
 		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
 
@@ -74,7 +59,7 @@ public class MongoPerfumeRepositoryIT {
 	@Test
 	public void testFindByIdReturnsSavedPerfume() {
 
-		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoDB.getConnectionString());
+		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, "perfume_manager", "perfumes");
 
 		Perfume perfume = new Perfume("p002", "Aventus", "Creed", "Fruity", 100, 4.7);
 
@@ -90,7 +75,7 @@ public class MongoPerfumeRepositoryIT {
 	@Test
 	public void testFindByIdReturnsNullWhenPerfumeDoesNotExist() {
 
-		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoDB.getConnectionString());
+		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, "perfume_manager", "perfumes");
 
 		Perfume result = repository.findById("does-not-exist");
 
@@ -100,7 +85,7 @@ public class MongoPerfumeRepositoryIT {
 	@Test
 	public void testDeleteRemovesPerfume() {
 
-		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoDB.getConnectionString());
+		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, "perfume_manager", "perfumes");
 
 		Perfume perfume = new Perfume("p003", "Bleu de Chanel", "Chanel", "Woody", 100, 4.6);
 
@@ -114,7 +99,7 @@ public class MongoPerfumeRepositoryIT {
 	@Test
 	public void testUpdateChangesExistingPerfume() {
 
-		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoDB.getConnectionString());
+		MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, "perfume_manager", "perfumes");
 
 		Perfume original = new Perfume("p004", "Sauvage", "Dior", "Woody", 100, 4.5);
 
