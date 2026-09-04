@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testcontainers.mongodb.MongoDBContainer;
+import static org.junit.Assert.assertEquals;
 
 import com.example.perfumemanager.view.swing.PerfumeSwingView;
 import com.mongodb.client.MongoClient;
@@ -101,6 +102,7 @@ public class PerfumeSwingViewE2E {
 		robot.waitForIdle();
 
 		window.list("perfumeList").requireItemCount(0);
+		assertEquals(0, window.list("perfumeList").target().getModel().getSize());
 	}
 
 	@Test
@@ -126,6 +128,7 @@ public class PerfumeSwingViewE2E {
 		robot.waitForIdle();
 
 		window.list("perfumeList").requireItemCount(0);
+		assertEquals(0, window.list("perfumeList").target().getModel().getSize());
 	}
 
 	@Test
@@ -138,5 +141,6 @@ public class PerfumeSwingViewE2E {
 		startApplication();
 
 		window.list("perfumeList").requireItemCount(1);
+		assertEquals(1, window.list("perfumeList").target().getModel().getSize());
 	}
 }

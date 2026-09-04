@@ -1,6 +1,8 @@
 package com.example.perfumemanager.app.swing;
 
 import java.awt.EventQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.example.perfumemanager.controller.PerfumeManager;
 import com.example.perfumemanager.repository.MongoPerfumeRepository;
@@ -9,6 +11,8 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
 public class PerfumeSwingApp {
+
+	private static final Logger LOGGER = Logger.getLogger(PerfumeSwingApp.class.getName());
 
 	public static void main(String[] args) {
 
@@ -37,7 +41,7 @@ public class PerfumeSwingApp {
 				perfumeManager.listPerfumes();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.log(Level.SEVERE, "Failed to start the application", e);
 			}
 		});
 	}
