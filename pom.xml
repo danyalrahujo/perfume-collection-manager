@@ -13,13 +13,26 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+
+		<maven.compiler.release>17</maven.compiler.release>
+
+		<build-helper-maven-plugin-version>3.6.1</build-helper-maven-plugin-version>
+		<maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
+		<maven-failsafe-plugin-version>3.5.3</maven-failsafe-plugin-version>
+		<jacoco-maven-plugin-version>0.8.15</jacoco-maven-plugin-version>
+		<sonar-maven-plugin-version>5.1.0.4751</sonar-maven-plugin-version>
+		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<pitest-maven-version>1.20.3</pitest-maven-version>
 
 		<sonar.projectKey>danyalrahujo_perfume-collection-manager</sonar.projectKey>
 		<sonar.organization>danyalrahujo</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<sonar.tests>
+			${project.basedir}/src/test/java,
+			${project.basedir}/src/it/java,
+			${project.basedir}/src/e2e/java
+		</sonar.tests>
 
 		<sonar.junit.reportPaths>
 			${project.build.directory}/surefire-reports,
@@ -36,7 +49,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -67,6 +80,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.36</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -75,7 +95,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${build-helper-maven-plugin-version}</version>
 				<executions>
 					<execution>
 						<id>add-test-source</id>
@@ -86,6 +106,7 @@
 						<configuration>
 							<sources>
 								<source>src/it/java</source>
+								<source>src/e2e/java</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -94,14 +115,49 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin-version}</version>
+				<configuration>
+					<argLine>${argLine} --add-opens
+						java.base/java.util=ALL-UNNAMED</argLine>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.1</version>
+				<version>${maven-failsafe-plugin-version}</version>
 				<executions>
 					<execution>
+						<id>integration-tests</id>
 						<goals>
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
+						<configuration>
+							<argLine>${argLine} --add-opens
+								java.base/java.util=ALL-UNNAMED</argLine>
+							<includes>
+								<include>**/*IT.java</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>e2e-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<argLine>${argLine} --add-opens
+								java.base/java.util=ALL-UNNAMED</argLine>
+							<includes>
+								<include>**/*E2E.java</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -109,8 +165,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.15</version>
-
+				<version>${jacoco-maven-plugin-version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -124,14 +179,13 @@
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>5.1.0.4751</version>
+				<version>${sonar-maven-plugin-version}</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.3.0</version>
-
+				<version>${coveralls-maven-plugin-version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>javax.xml.bind</groupId>
@@ -139,40 +193,32 @@
 						<version>2.3.1</version>
 					</dependency>
 				</dependencies>
-
 				<configuration>
 					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
 				</configuration>
 			</plugin>
 
-			<!-- PIT Mutation Testing -->
 			<plugin>
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
 				<version>${pitest-maven-version}</version>
-
 				<configuration>
-
 					<targetClasses>
 						<param>com.example.perfumemanager.controller.*</param>
 						<param>com.example.perfumemanager.repository.*</param>
 					</targetClasses>
-
 					<targetTests>
 						<param>com.example.perfumemanager.controller.*</param>
 						<param>com.example.perfumemanager.repository.*</param>
 					</targetTests>
-
 					<excludedTestClasses>
-						<param>*IT</param>
+						<param>**/*IT.java</param>
+						<param>**/*E2E.java</param>
 					</excludedTestClasses>
-
 					<mutators>
 						<mutator>DEFAULTS</mutator>
 					</mutators>
-
-					<mutationThreshold>80</mutationThreshold>
-
+					<mutationThreshold>100</mutationThreshold>
 				</configuration>
 			</plugin>
 
@@ -180,36 +226,26 @@
 	</build>
 
 	<profiles>
-
 		<profile>
 			<id>pit-mutation-testing</id>
-
 			<build>
 				<plugins>
-
 					<plugin>
 						<groupId>org.pitest</groupId>
 						<artifactId>pitest-maven</artifactId>
-
 						<executions>
 							<execution>
-
+								<id>mutation-testing</id>
 								<phase>verify</phase>
-
 								<goals>
 									<goal>mutationCoverage</goal>
 								</goals>
-
 							</execution>
 						</executions>
-
 					</plugin>
-
 				</plugins>
 			</build>
-
 		</profile>
-
 	</profiles>
 
 </project>
