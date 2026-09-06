@@ -23,10 +23,21 @@
 		<sonar-maven-plugin-version>5.1.0.4751</sonar-maven-plugin-version>
 		<coveralls-maven-plugin-version>4.3.0</coveralls-maven-plugin-version>
 		<pitest-maven-version>1.20.3</pitest-maven-version>
+		<mockito-version>5.18.0</mockito-version>
 
 		<sonar.projectKey>danyalrahujo_perfume-collection-manager</sonar.projectKey>
 		<sonar.organization>danyalrahujo</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<sonar.issue.ignore.multicriteria>e1</sonar.issue.ignore.multicriteria>
+
+		<sonar.issue.ignore.multicriteria.e1.ruleKey>
+			java:S3577
+		</sonar.issue.ignore.multicriteria.e1.ruleKey>
+
+		<sonar.issue.ignore.multicriteria.e1.resourceKey>
+			**/PerfumeSwingViewE2E.java
+		</sonar.issue.ignore.multicriteria.e1.resourceKey>
 
 		<sonar.tests>
 			${project.basedir}/src/test/java,
@@ -115,11 +126,25 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin-version}</version>
 				<configuration>
-					<argLine>${argLine} --add-opens
-						java.base/java.util=ALL-UNNAMED</argLine>
+					<argLine>@{argLine}
+						-Xshare:off
+						-javaagent:${org.mockito:mockito-core:jar}
+						--add-opens java.base/java.util=ALL-UNNAMED</argLine>
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
@@ -138,13 +163,14 @@
 							<goal>verify</goal>
 						</goals>
 						<configuration>
-							<argLine>${argLine} --add-opens
+							<argLine>${argLine} -Xshare:off --add-opens
 								java.base/java.util=ALL-UNNAMED</argLine>
 							<includes>
 								<include>**/*IT.java</include>
 							</includes>
 						</configuration>
 					</execution>
+
 					<execution>
 						<id>e2e-tests</id>
 						<goals>
@@ -152,7 +178,7 @@
 							<goal>verify</goal>
 						</goals>
 						<configuration>
-							<argLine>${argLine} --add-opens
+							<argLine>${argLine} -Xshare:off --add-opens
 								java.base/java.util=ALL-UNNAMED</argLine>
 							<includes>
 								<include>**/*E2E.java</include>
@@ -166,6 +192,11 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco-maven-plugin-version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/PerfumeSwingApp.*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>

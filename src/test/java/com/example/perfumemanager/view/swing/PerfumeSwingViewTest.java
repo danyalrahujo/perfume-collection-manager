@@ -1,7 +1,14 @@
 package com.example.perfumemanager.view.swing;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
@@ -11,7 +18,6 @@ import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.perfumemanager.controller.PerfumeManager;
 import com.example.perfumemanager.model.Perfume;
@@ -215,5 +221,124 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Update")).click();
 
 		verify(perfumeManager).updatePerfume(new Perfume("p001", "Sauvage Elixir", "Dior", "Spicy", 60, 4.8));
+	}
+
+	@Test
+	public void testWhenUpdateButtonIsClickedWithoutSelectionThenManagerShouldNotUpdatePerfume() {
+		window.button(JButtonMatcher.withText("Update")).click();
+
+		org.mockito.Mockito.verifyNoInteractions(perfumeManager);
+	}
+
+	@Test
+	public void testWhenDeleteButtonIsClickedWithoutSelectionThenManagerShouldNotDeletePerfume() {
+		window.button(JButtonMatcher.withText("Delete Selected")).click();
+
+		org.mockito.Mockito.verifyNoInteractions(perfumeManager);
+	}
+
+	@Test
+	public void testWhenUpdateButtonIsClickedWithInvalidNumbersThenErrorShouldAppear() {
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(perfume));
+		});
+
+		window.list("perfumeList").selectItem(0);
+
+		window.textBox("volumeTextBox").selectAll().enterText("invalid");
+		window.textBox("ratingTextBox").selectAll().enterText("4.8");
+
+		window.button(JButtonMatcher.withText("Update")).click();
+
+		window.label("errorMessageLabel").requireText("Volume and rating must be valid numbers.");
+
+		org.mockito.Mockito.verifyNoInteractions(perfumeManager);
+	}
+
+	@Test
+	public void testWhenPerfumeIsUpdatedThenListShouldContainUpdatedPerfume() {
+		Perfume original = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+		Perfume updated = new Perfume("p001", "Sauvage Elixir", "Dior", "Spicy", 60, 4.8);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(original));
+			perfumeSwingView.perfumeUpdated(updated);
+		});
+
+		assertThat(window.list("perfumeList").contents()[0]).isEqualTo(updated.toString());
+
+		window.list("perfumeList").requireSelection(0);
+	}
+
+	@Test
+	public void testWhenUpdatingUnknownPerfumeThenListShouldRemainUnchanged() {
+		Perfume existing = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+		Perfume unknown = new Perfume("p002", "Bleu", "Chanel", "Fresh", 100, 4.0);
+
+		GuiActionRunner.execute(() -> {
+			perfumeSwingView.showAllPerfumes(java.util.List.of(existing));
+			perfumeSwingView.perfumeUpdated(unknown);
+		});
+
+		assertThat(window.list("perfumeList").contents()).containsExactly(existing.toString());
+
+		assertThat(window.list("perfumeList").selection()).isEmpty();
+	}
+
+	@Test
+	public void testWhenAddButtonIsClickedWithInvalidNumbersThenErrorShouldAppear() {
+		window.textBox("idTextBox").enterText("invalid001");
+		window.textBox("nameTextBox").enterText("Invalid Perfume");
+		window.textBox("volumeTextBox").enterText("not-a-number");
+		window.textBox("ratingTextBox").enterText("4.5");
+
+		window.button(JButtonMatcher.withText("Add")).click();
+
+		window.label("errorMessageLabel").requireText("Volume and rating must be valid numbers.");
+	}
+
+	@Test
+	public void testWhenUpdateActionIsTriggeredWithoutSelectionThenManagerShouldNotUpdatePerfume() {
+		JButton updateButton = window.button(JButtonMatcher.withText("Update")).target();
+
+		updateButton.getActionListeners()[0]
+				.actionPerformed(new ActionEvent(updateButton, ActionEvent.ACTION_PERFORMED, "Update"));
+
+		org.mockito.Mockito.verifyNoInteractions(perfumeManager);
+	}
+
+	@Test
+	public void testWhenDeleteActionIsTriggeredWithoutSelectionThenManagerShouldNotDeletePerfume() {
+		JButton deleteButton = window.button(JButtonMatcher.withText("Delete Selected")).target();
+
+		deleteButton.getActionListeners()[0]
+				.actionPerformed(new ActionEvent(deleteButton, ActionEvent.ACTION_PERFORMED, "Delete Selected"));
+
+		org.mockito.Mockito.verifyNoInteractions(perfumeManager);
+	}
+
+	@Test
+	public void testChangedUpdateShouldRefreshAddButton() {
+		window.textBox("idTextBox").enterText("changed001");
+		window.textBox("nameTextBox").enterText("Changed Perfume");
+
+		AbstractDocument document = (AbstractDocument) window.textBox("idTextBox").target().getDocument();
+
+		DocumentListener targetListener = null;
+
+		for (DocumentListener listener : document.getDocumentListeners()) {
+			if (listener.getClass().getName().startsWith("com.example.perfumemanager.view.swing.PerfumeSwingView")) {
+				targetListener = listener;
+				break;
+			}
+		}
+
+		assertThat(targetListener).isNotNull();
+
+		targetListener.changedUpdate(null);
+
+		window.button(JButtonMatcher.withText("Add")).requireEnabled();
 	}
 }

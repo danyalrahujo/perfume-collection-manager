@@ -15,34 +15,39 @@ public class PerfumeSwingApp {
 	private static final Logger LOGGER = Logger.getLogger(PerfumeSwingApp.class.getName());
 
 	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> startApplication(args));
+	}
 
-		EventQueue.invokeLater(() -> {
-			try {
+	static void startApplication(String[] args) {
+		try {
+			String[] applicationArgs = resolveArguments(args);
 
-				String mongoHost = args.length > 0 ? args[0] : "localhost";
-				int mongoPort = args.length > 1 ? Integer.parseInt(args[1]) : 27017;
+			String mongoHost = applicationArgs[0];
+			int mongoPort = Integer.parseInt(applicationArgs[1]);
+			String databaseName = applicationArgs[2];
+			String collectionName = applicationArgs[3];
 
-				String databaseName = args.length > 2 ? args[2] : "perfume_manager";
-				String collectionName = args.length > 3 ? args[3] : "perfumes";
+			MongoClient mongoClient = MongoClients.create("mongodb://" + mongoHost + ":" + mongoPort);
 
-				MongoClient mongoClient = MongoClients.create("mongodb://" + mongoHost + ":" + mongoPort);
+			MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, databaseName, collectionName);
 
-				MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, databaseName,
-						collectionName);
+			PerfumeSwingView view = new PerfumeSwingView();
 
-				PerfumeSwingView view = new PerfumeSwingView();
+			PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
-				PerfumeManager perfumeManager = new PerfumeManager(repository, view);
+			view.setPerfumeManager(perfumeManager);
 
-				view.setPerfumeManager(perfumeManager);
+			view.setVisible(true);
 
-				view.setVisible(true);
+			perfumeManager.listPerfumes();
 
-				perfumeManager.listPerfumes();
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "Failed to start the application", e);
+		}
+	}
 
-			} catch (Exception e) {
-				LOGGER.log(Level.SEVERE, "Failed to start the application", e);
-			}
-		});
+	static String[] resolveArguments(String[] args) {
+		return new String[] { args.length > 0 ? args[0] : "localhost", args.length > 1 ? args[1] : "27017",
+				args.length > 2 ? args[2] : "perfume_manager", args.length > 3 ? args[3] : "perfumes" };
 	}
 }

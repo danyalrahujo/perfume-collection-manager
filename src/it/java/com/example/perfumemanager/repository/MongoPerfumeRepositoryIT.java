@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.After;
 
 import com.example.perfumemanager.model.Perfume;
 import com.mongodb.client.MongoClient;
@@ -39,6 +40,13 @@ public class MongoPerfumeRepositoryIT {
 		mongoClient = MongoClients.create(mongoDB.getConnectionString());
 
 		mongoClient.getDatabase("perfume_manager").getCollection("perfumes").deleteMany(new Document());
+	}
+
+	@After
+	public void closeMongoClient() {
+		if (mongoClient != null) {
+			mongoClient.close();
+		}
 	}
 
 	@Test
