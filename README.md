@@ -7,7 +7,8 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=danyalrahujo_perfume-collection-manager&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=danyalrahujo_perfume-collection-manager)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=danyalrahujo_perfume-collection-manager&metric=coverage)](https://sonarcloud.io/summary/new_code?id=danyalrahujo_perfume-collection-manager)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=danyalrahujo_perfume-collection-manager&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=danyalrahujo_perfume-collection-manager)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=danyalrahujo_perfume-collection-manager&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=danyalrahujo_perfume-collection-manager)[![Coverage Status](https://coveralls.io/repos/github/danyalrahujo/perfume-collection-manager/badge.svg?branch=main)](https://coveralls.io/github/danyalrahujo/perfume-collection-manager?branch=main)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=danyalrahujo_perfume-collection-manager&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=danyalrahujo_perfume-collection-manager)
+[![Coverage Status](https://coveralls.io/repos/github/danyalrahujo/perfume-collection-manager/badge.svg)](https://coveralls.io/github/danyalrahujo/perfume-collection-manager)
 
 **Perfume Collection Manager** is a desktop application designed to help users organize and manage their perfume collection through a simple graphical user interface. Users can add new perfumes by providing information such as a unique ID, name, brand, fragrance family, volume, and rating. The application allows users to view, update, and delete perfumes at any time.
 
