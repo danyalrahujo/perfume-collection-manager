@@ -1,6 +1,5 @@
 package com.example.perfumemanager.view.swing;
 
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,10 +18,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+
 import com.example.perfumemanager.controller.PerfumeManager;
 import com.example.perfumemanager.model.Perfume;
-import com.example.perfumemanager.repository.InMemoryPerfumeRepository;
-import com.example.perfumemanager.repository.PerfumeRepository;
 import com.example.perfumemanager.view.PerfumeView;
 
 public class PerfumeSwingView extends JFrame implements PerfumeView {
@@ -50,38 +48,13 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 	private PerfumeManager perfumeManager;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PerfumeSwingView frame = new PerfumeSwingView();
-
-					PerfumeRepository repository = new InMemoryPerfumeRepository();
-
-					PerfumeManager perfumeManager = new PerfumeManager(repository, frame);
-
-					frame.setPerfumeManager(perfumeManager);
-
-					perfumeManager.listPerfumes();
-
-					frame.setVisible(true);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public PerfumeSwingView() {
+
 		setTitle("Perfume View");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 475, 472);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,141 +72,161 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 		contentPane.setLayout(gbl_contentPane);
 
-		// ID
-		JLabel lblNewLabel = new JLabel("id");
+		JLabel lblId = new JLabel("id");
 
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		GridBagConstraints gbcLblId = new GridBagConstraints();
+		gbcLblId.insets = new Insets(0, 0, 5, 5);
+		gbcLblId.anchor = GridBagConstraints.EAST;
+		gbcLblId.gridx = 0;
+		gbcLblId.gridy = 0;
+
+		contentPane.add(lblId, gbcLblId);
 
 		txtId = new JTextField();
 		txtId.setName("idTextBox");
 
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		contentPane.add(txtId, gbc_textField);
+		GridBagConstraints gbcId = new GridBagConstraints();
+		gbcId.insets = new Insets(0, 0, 5, 0);
+		gbcId.fill = GridBagConstraints.HORIZONTAL;
+		gbcId.gridx = 1;
+		gbcId.gridy = 0;
+
+		contentPane.add(txtId, gbcId);
+
 		txtId.setColumns(10);
 
-		// Name
-		JLabel lblNewLabel_1 = new JLabel("name");
+		JLabel lblName = new JLabel("name");
 
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 1;
-		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		GridBagConstraints gbcLblName = new GridBagConstraints();
+		gbcLblName.anchor = GridBagConstraints.EAST;
+		gbcLblName.insets = new Insets(0, 0, 5, 5);
+		gbcLblName.gridx = 0;
+		gbcLblName.gridy = 1;
+
+		contentPane.add(lblName, gbcLblName);
 
 		txtName = new JTextField();
 		txtName.setName("nameTextBox");
 
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 1;
-		contentPane.add(txtName, gbc_textField_1);
+		GridBagConstraints gbcName = new GridBagConstraints();
+		gbcName.insets = new Insets(0, 0, 5, 0);
+		gbcName.fill = GridBagConstraints.HORIZONTAL;
+		gbcName.gridx = 1;
+		gbcName.gridy = 1;
+
+		contentPane.add(txtName, gbcName);
+
 		txtName.setColumns(10);
 
-		// Brand
-		JLabel lblNewLabel_2 = new JLabel("brand");
+		JLabel lblBrand = new JLabel("brand");
 
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 2;
-		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		GridBagConstraints gbcLblBrand = new GridBagConstraints();
+		gbcLblBrand.anchor = GridBagConstraints.EAST;
+		gbcLblBrand.insets = new Insets(0, 0, 5, 5);
+		gbcLblBrand.gridx = 0;
+		gbcLblBrand.gridy = 2;
+
+		contentPane.add(lblBrand, gbcLblBrand);
 
 		txtBrand = new JTextField();
 		txtBrand.setName("brandTextBox");
 
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 2;
-		contentPane.add(txtBrand, gbc_textField_2);
+		GridBagConstraints gbcBrand = new GridBagConstraints();
+		gbcBrand.insets = new Insets(0, 0, 5, 0);
+		gbcBrand.fill = GridBagConstraints.HORIZONTAL;
+		gbcBrand.gridx = 1;
+		gbcBrand.gridy = 2;
+
+		contentPane.add(txtBrand, gbcBrand);
+
 		txtBrand.setColumns(10);
 
-		// Fragrance family
-		JLabel lblNewLabel_3 = new JLabel("fragrance family");
+		JLabel lblFragranceFamily = new JLabel("fragrance family");
 
-		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_3.gridx = 0;
-		gbc_lblNewLabel_3.gridy = 3;
-		contentPane.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		GridBagConstraints gbcLblFragranceFamily = new GridBagConstraints();
+
+		gbcLblFragranceFamily.anchor = GridBagConstraints.EAST;
+		gbcLblFragranceFamily.insets = new Insets(0, 0, 5, 5);
+		gbcLblFragranceFamily.gridx = 0;
+		gbcLblFragranceFamily.gridy = 3;
+
+		contentPane.add(lblFragranceFamily, gbcLblFragranceFamily);
 
 		txtFragranceFamily = new JTextField();
 		txtFragranceFamily.setName("fragrancefamilyTextBox");
 
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 1;
-		gbc_textField_3.gridy = 3;
-		contentPane.add(txtFragranceFamily, gbc_textField_3);
+		GridBagConstraints gbcFragranceFamily = new GridBagConstraints();
+
+		gbcFragranceFamily.insets = new Insets(0, 0, 5, 0);
+		gbcFragranceFamily.fill = GridBagConstraints.HORIZONTAL;
+		gbcFragranceFamily.gridx = 1;
+		gbcFragranceFamily.gridy = 3;
+
+		contentPane.add(txtFragranceFamily, gbcFragranceFamily);
+
 		txtFragranceFamily.setColumns(10);
 
-		// Volume
-		JLabel lblNewLabel_4 = new JLabel("volume");
+		JLabel lblVolume = new JLabel("volume");
 
-		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
-		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_4.gridx = 0;
-		gbc_lblNewLabel_4.gridy = 4;
-		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
+		GridBagConstraints gbcLblVolume = new GridBagConstraints();
+
+		gbcLblVolume.anchor = GridBagConstraints.EAST;
+		gbcLblVolume.insets = new Insets(0, 0, 5, 5);
+		gbcLblVolume.gridx = 0;
+		gbcLblVolume.gridy = 4;
+
+		contentPane.add(lblVolume, gbcLblVolume);
 
 		txtVolume = new JTextField();
 		txtVolume.setName("volumeTextBox");
 
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.gridx = 1;
-		gbc_textField_4.gridy = 4;
-		contentPane.add(txtVolume, gbc_textField_4);
+		GridBagConstraints gbcVolume = new GridBagConstraints();
+
+		gbcVolume.insets = new Insets(0, 0, 5, 0);
+		gbcVolume.fill = GridBagConstraints.HORIZONTAL;
+		gbcVolume.gridx = 1;
+		gbcVolume.gridy = 4;
+
+		contentPane.add(txtVolume, gbcVolume);
+
 		txtVolume.setColumns(10);
 
-		// Rating
-		JLabel lblNewLabel_5 = new JLabel("rating");
+		JLabel lblRating = new JLabel("rating");
 
-		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
-		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_5.gridx = 0;
-		gbc_lblNewLabel_5.gridy = 5;
-		contentPane.add(lblNewLabel_5, gbc_lblNewLabel_5);
+		GridBagConstraints gbcLblRating = new GridBagConstraints();
+
+		gbcLblRating.anchor = GridBagConstraints.EAST;
+		gbcLblRating.insets = new Insets(0, 0, 5, 5);
+		gbcLblRating.gridx = 0;
+		gbcLblRating.gridy = 5;
+
+		contentPane.add(lblRating, gbcLblRating);
 
 		txtRating = new JTextField();
 		txtRating.setName("ratingTextBox");
 
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_5.gridx = 1;
-		gbc_textField_5.gridy = 5;
-		contentPane.add(txtRating, gbc_textField_5);
+		GridBagConstraints gbcRating = new GridBagConstraints();
+
+		gbcRating.insets = new Insets(0, 0, 5, 0);
+		gbcRating.fill = GridBagConstraints.HORIZONTAL;
+		gbcRating.gridx = 1;
+		gbcRating.gridy = 5;
+
+		contentPane.add(txtRating, gbcRating);
+
 		txtRating.setColumns(10);
 
-		// Add button
 		btnAdd = new JButton("Add");
 		btnAdd.setEnabled(false);
+
 		btnAdd.addActionListener(e -> addPerfume());
 
 		DocumentListener addButtonListener = new DocumentListener() {
 
 			private void updateAddButton() {
-				btnAdd.setEnabled(!txtId.getText().trim().isEmpty() && !txtName.getText().trim().isEmpty());
+				boolean enabled = !txtId.getText().trim().isEmpty() && !txtName.getText().trim().isEmpty();
+
+				btnAdd.setEnabled(enabled);
 			}
 
 			@Override
@@ -253,104 +246,169 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		};
 
 		txtId.getDocument().addDocumentListener(addButtonListener);
+
 		txtName.getDocument().addDocumentListener(addButtonListener);
 
-		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
-		gbc_btnAdd.gridwidth = 2;
-		gbc_btnAdd.gridx = 0;
-		gbc_btnAdd.gridy = 6;
-		contentPane.add(btnAdd, gbc_btnAdd);
+		GridBagConstraints gbcBtnAdd = new GridBagConstraints();
 
-		// Update button
+		gbcBtnAdd.insets = new Insets(0, 0, 5, 0);
+		gbcBtnAdd.gridwidth = 2;
+		gbcBtnAdd.gridx = 0;
+		gbcBtnAdd.gridy = 6;
+
+		contentPane.add(btnAdd, gbcBtnAdd);
+
 		btnUpdate = new JButton("Update");
 		btnUpdate.setEnabled(false);
+
 		btnUpdate.addActionListener(e -> updatePerfume());
 
-		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
-		gbc_btnUpdate.insets = new Insets(0, 0, 5, 0);
-		gbc_btnUpdate.gridwidth = 2;
-		gbc_btnUpdate.gridx = 0;
-		gbc_btnUpdate.gridy = 7;
-		contentPane.add(btnUpdate, gbc_btnUpdate);
+		GridBagConstraints gbcBtnUpdate = new GridBagConstraints();
 
-		// Perfume list
+		gbcBtnUpdate.insets = new Insets(0, 0, 5, 0);
+		gbcBtnUpdate.gridwidth = 2;
+		gbcBtnUpdate.gridx = 0;
+		gbcBtnUpdate.gridy = 7;
+
+		contentPane.add(btnUpdate, gbcBtnUpdate);
+
 		JScrollPane scrollPane = new JScrollPane();
 
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 2;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 8;
-		contentPane.add(scrollPane, gbc_scrollPane);
+		GridBagConstraints gbcScrollPane = new GridBagConstraints();
+
+		gbcScrollPane.insets = new Insets(0, 0, 5, 0);
+		gbcScrollPane.fill = GridBagConstraints.BOTH;
+		gbcScrollPane.gridwidth = 2;
+		gbcScrollPane.gridx = 0;
+		gbcScrollPane.gridy = 8;
+
+		contentPane.add(scrollPane, gbcScrollPane);
 
 		perfumeListModel = new DefaultListModel<>();
 
 		perfumeList = new JList<>(perfumeListModel);
-		scrollPane.setViewportView(perfumeList);
 
 		perfumeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		perfumeList.setName("perfumeList");
 
-		// Delete button
+		scrollPane.setViewportView(perfumeList);
+
 		btnDeleteSelected = new JButton("Delete Selected");
 		btnDeleteSelected.setEnabled(false);
 
-		btnDeleteSelected.addActionListener(e -> {
-			Perfume selectedPerfume = perfumeList.getSelectedValue();
+		btnDeleteSelected.addActionListener(e -> deleteSelectedPerfume());
 
-			if (selectedPerfume != null) {
-				perfumeManager.deletePerfume(selectedPerfume);
-			}
-		});
+		GridBagConstraints gbcBtnDelete = new GridBagConstraints();
 
-		// Selection listener
+		gbcBtnDelete.insets = new Insets(0, 0, 5, 0);
+		gbcBtnDelete.gridwidth = 2;
+		gbcBtnDelete.gridx = 0;
+		gbcBtnDelete.gridy = 9;
+
+		contentPane.add(btnDeleteSelected, gbcBtnDelete);
+
 		perfumeList.addListSelectionListener(e -> {
 
+			if (e.getValueIsAdjusting()) {
+				return;
+			}
+
 			Perfume selectedPerfume = perfumeList.getSelectedValue();
 
-			btnDeleteSelected.setEnabled(selectedPerfume != null);
-			btnUpdate.setEnabled(selectedPerfume != null);
+			boolean selected = selectedPerfume != null;
+
+			btnDeleteSelected.setEnabled(selected);
+			btnUpdate.setEnabled(selected);
 
 			if (selectedPerfume != null) {
+
 				txtId.setText(selectedPerfume.getId());
+
 				txtName.setText(selectedPerfume.getName());
+
 				txtBrand.setText(selectedPerfume.getBrand());
+
 				txtFragranceFamily.setText(selectedPerfume.getFragranceFamily());
+
 				txtVolume.setText(String.valueOf(selectedPerfume.getVolume()));
+
 				txtRating.setText(String.valueOf(selectedPerfume.getRating()));
 			}
 		});
 
-		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
-		gbc_btnDelete.insets = new Insets(0, 0, 5, 0);
-		gbc_btnDelete.gridwidth = 2;
-		gbc_btnDelete.gridx = 0;
-		gbc_btnDelete.gridy = 9;
-		contentPane.add(btnDeleteSelected, gbc_btnDelete);
-
-		// Error message
 		lblErrorMessage = new JLabel(" ");
 		lblErrorMessage.setName("errorMessageLabel");
 
-		GridBagConstraints gbc_lblErrorMessage = new GridBagConstraints();
-		gbc_lblErrorMessage.insets = new Insets(0, 0, 0, 5);
-		gbc_lblErrorMessage.gridx = 0;
-		gbc_lblErrorMessage.gridy = 10;
-		contentPane.add(lblErrorMessage, gbc_lblErrorMessage);
+		GridBagConstraints gbcLblError = new GridBagConstraints();
+
+		gbcLblError.insets = new Insets(0, 0, 0, 5);
+
+		gbcLblError.gridx = 0;
+		gbcLblError.gridy = 10;
+
+		contentPane.add(lblErrorMessage, gbcLblError);
 	}
 
 	public void setPerfumeManager(PerfumeManager perfumeManager) {
+
 		this.perfumeManager = perfumeManager;
 	}
 
 	private void addPerfume() {
-		Perfume perfume = new Perfume(txtId.getText(), txtName.getText(), txtBrand.getText(),
-				txtFragranceFamily.getText(), Integer.parseInt(txtVolume.getText()),
-				Double.parseDouble(txtRating.getText()));
 
-		perfumeManager.addPerfume(perfume);
+		try {
+
+			Perfume perfume = new Perfume(txtId.getText(), txtName.getText(), txtBrand.getText(),
+					txtFragranceFamily.getText(), Integer.parseInt(txtVolume.getText()),
+					Double.parseDouble(txtRating.getText()));
+
+			perfumeManager.addPerfume(perfume);
+
+			clearFields();
+
+		} catch (NumberFormatException e) {
+
+			showError("Volume and rating must be valid numbers.", null);
+		}
+	}
+
+	private void updatePerfume() {
+
+		if (perfumeList.getSelectedIndex() < 0) {
+			return;
+		}
+
+		try {
+
+			Perfume updatedPerfume = new Perfume(txtId.getText(), txtName.getText(), txtBrand.getText(),
+					txtFragranceFamily.getText(), Integer.parseInt(txtVolume.getText()),
+					Double.parseDouble(txtRating.getText()));
+
+			perfumeManager.updatePerfume(updatedPerfume);
+
+		} catch (NumberFormatException e) {
+
+			showError("Volume and rating must be valid numbers.", null);
+		}
+	}
+
+	private void deleteSelectedPerfume() {
+
+		int selectedIndex = perfumeList.getSelectedIndex();
+
+		if (selectedIndex < 0) {
+			return;
+		}
+
+		Perfume selectedPerfume = perfumeListModel.getElementAt(selectedIndex);
+
+		perfumeManager.deletePerfume(selectedPerfume);
+	}
+
+	private void clearFields() {
+
+		perfumeList.clearSelection();
 
 		txtId.setText("");
 		txtName.setText("");
@@ -358,20 +416,14 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 		txtFragranceFamily.setText("");
 		txtVolume.setText("");
 		txtRating.setText("");
-	}
 
-	private void updatePerfume() {
-		if (perfumeList.getSelectedValue() != null) {
-			Perfume updatedPerfume = new Perfume(txtId.getText(), txtName.getText(), txtBrand.getText(),
-					txtFragranceFamily.getText(), Integer.parseInt(txtVolume.getText()),
-					Double.parseDouble(txtRating.getText()));
-
-			perfumeManager.updatePerfume(updatedPerfume);
-		}
+		btnUpdate.setEnabled(false);
+		btnDeleteSelected.setEnabled(false);
 	}
 
 	@Override
 	public void showAllPerfumes(List<Perfume> perfumes) {
+
 		perfumeListModel.clear();
 
 		for (Perfume perfume : perfumes) {
@@ -381,29 +433,40 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 	@Override
 	public void showError(String message, Perfume perfume) {
+
 		lblErrorMessage.setText(message);
 	}
 
 	@Override
 	public void perfumeAdded(Perfume perfume) {
+
 		perfumeListModel.addElement(perfume);
 	}
 
 	@Override
 	public void perfumeRemoved(Perfume perfume) {
+
 		perfumeListModel.removeElement(perfume);
+
+		perfumeList.clearSelection();
+
 		btnDeleteSelected.setEnabled(false);
 		btnUpdate.setEnabled(false);
 	}
 
 	@Override
 	public void perfumeUpdated(Perfume perfume) {
+
 		for (int i = 0; i < perfumeListModel.size(); i++) {
+
 			Perfume existingPerfume = perfumeListModel.getElementAt(i);
 
 			if (existingPerfume.getId().equals(perfume.getId())) {
+
 				perfumeListModel.setElementAt(perfume, i);
+
 				perfumeList.setSelectedIndex(i);
+
 				return;
 			}
 		}

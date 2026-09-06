@@ -1,0 +1,53 @@
+package com.example.perfumemanager.app.swing;
+
+import java.awt.EventQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.example.perfumemanager.controller.PerfumeManager;
+import com.example.perfumemanager.repository.MongoPerfumeRepository;
+import com.example.perfumemanager.view.swing.PerfumeSwingView;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+
+public class PerfumeSwingApp {
+
+	private static final Logger LOGGER = Logger.getLogger(PerfumeSwingApp.class.getName());
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> startApplication(args));
+	}
+
+	static void startApplication(String[] args) {
+		try {
+			String[] applicationArgs = resolveArguments(args);
+
+			String mongoHost = applicationArgs[0];
+			int mongoPort = Integer.parseInt(applicationArgs[1]);
+			String databaseName = applicationArgs[2];
+			String collectionName = applicationArgs[3];
+
+			MongoClient mongoClient = MongoClients.create("mongodb://" + mongoHost + ":" + mongoPort);
+
+			MongoPerfumeRepository repository = new MongoPerfumeRepository(mongoClient, databaseName, collectionName);
+
+			PerfumeSwingView view = new PerfumeSwingView();
+
+			PerfumeManager perfumeManager = new PerfumeManager(repository, view);
+
+			view.setPerfumeManager(perfumeManager);
+
+			view.setVisible(true);
+
+			perfumeManager.listPerfumes();
+
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "Failed to start the application", e);
+		}
+	}
+
+	static String[] resolveArguments(String[] args) {
+		return new String[] { args.length > 0 ? args[0] : "localhost", args.length > 1 ? args[1] : "27017",
+				args.length > 2 ? args[2] : "perfume_manager", args.length > 3 ? args[3] : "perfumes" };
+	}
+}

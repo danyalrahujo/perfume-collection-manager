@@ -157,4 +157,15 @@ public class PerfumeManagerTest {
 		verify(view).perfumeUpdated(perfume);
 	}
 
+	@Test
+	public void testUpdatePerfumeWithoutView() {
+		PerfumeRepository repository = mock(PerfumeRepository.class);
+		PerfumeManager manager = new PerfumeManager(repository);
+		Perfume perfume = new Perfume("p001", "Sauvage", "Dior", "Woody", 100, 4.5);
+
+		manager.updatePerfume(perfume);
+
+		verify(repository).update(perfume);
+	}
+
 }
