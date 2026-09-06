@@ -56,6 +56,7 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("perfumeList");
 
 		window.button(JButtonMatcher.withText("Delete Selected")).requireDisabled();
+		assertThat(window.button(JButtonMatcher.withText("Delete Selected")).target().isEnabled()).isFalse();
 
 		window.label("errorMessageLabel").requireText(" ");
 	}
@@ -65,7 +66,9 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox("idTextBox").enterText("1");
 		window.textBox("nameTextBox").enterText("test");
 
-		window.button(JButtonMatcher.withText("Add")).requireEnabled();
+		JButton addButton = window.button(JButtonMatcher.withText("Add")).target();
+
+		assertThat(addButton.isEnabled()).isTrue();
 	}
 
 	@Test
@@ -93,12 +96,12 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.button(JButtonMatcher.withText("Add")).click();
 
-		window.textBox("idTextBox").requireText("");
-		window.textBox("nameTextBox").requireText("");
-		window.textBox("brandTextBox").requireText("");
-		window.textBox("fragrancefamilyTextBox").requireText("");
-		window.textBox("volumeTextBox").requireText("");
-		window.textBox("ratingTextBox").requireText("");
+		assertThat(window.textBox("idTextBox").target().getText()).isEmpty();
+		assertThat(window.textBox("nameTextBox").target().getText()).isEmpty();
+		assertThat(window.textBox("brandTextBox").target().getText()).isEmpty();
+		assertThat(window.textBox("fragrancefamilyTextBox").target().getText()).isEmpty();
+		assertThat(window.textBox("volumeTextBox").target().getText()).isEmpty();
+		assertThat(window.textBox("ratingTextBox").target().getText()).isEmpty();
 	}
 
 	@Test
@@ -109,7 +112,9 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.list("perfumeList").selectItem(0);
 
-		window.button(JButtonMatcher.withText("Delete Selected")).requireEnabled();
+		JButton deleteButton = window.button(JButtonMatcher.withText("Delete Selected")).target();
+
+		assertThat(deleteButton.isEnabled()).isTrue();
 	}
 
 	@Test
@@ -125,6 +130,7 @@ public class PerfumeSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Delete Selected")).click();
 
 		verify(perfumeManager).deletePerfume(perfume);
+
 	}
 
 	@Test

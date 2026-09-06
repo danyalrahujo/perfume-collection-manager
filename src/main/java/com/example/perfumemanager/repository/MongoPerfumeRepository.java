@@ -13,6 +13,11 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class MongoPerfumeRepository implements PerfumeRepository {
 
+	private static final String FRAGRANCE_FAMILY_FIELD = "fragranceFamily";
+	private static final String BRAND_FIELD = "brand";
+	private static final String VOLUME_FIELD = "volume";
+	private static final String RATING_FIELD = "rating";
+
 	private final MongoCollection<Document> collection;
 
 	public MongoPerfumeRepository(MongoClient client, String databaseName, String collectionName) {
@@ -24,8 +29,8 @@ public class MongoPerfumeRepository implements PerfumeRepository {
 	public void save(Perfume perfume) {
 
 		Document document = new Document("_id", perfume.getId()).append("name", perfume.getName())
-				.append("brand", perfume.getBrand()).append("fragranceFamily", perfume.getFragranceFamily())
-				.append("volume", perfume.getVolume()).append("rating", perfume.getRating());
+				.append(BRAND_FIELD, perfume.getBrand()).append(FRAGRANCE_FAMILY_FIELD, perfume.getFragranceFamily())
+				.append(VOLUME_FIELD, perfume.getVolume()).append(RATING_FIELD, perfume.getRating());
 
 		collection.insertOne(document);
 	}
@@ -62,16 +67,17 @@ public class MongoPerfumeRepository implements PerfumeRepository {
 	@Override
 	public void update(Perfume perfume) {
 
-		Document document = new Document("name", perfume.getName()).append("brand", perfume.getBrand())
-				.append("fragranceFamily", perfume.getFragranceFamily()).append("volume", perfume.getVolume())
-				.append("rating", perfume.getRating());
+		Document document = new Document("name", perfume.getName()).append(BRAND_FIELD, perfume.getBrand())
+				.append(FRAGRANCE_FAMILY_FIELD, perfume.getFragranceFamily()).append(VOLUME_FIELD, perfume.getVolume())
+				.append(RATING_FIELD, perfume.getRating());
 
 		collection.updateOne(eq("_id", perfume.getId()), new Document("$set", document));
 	}
 
 	private Perfume toPerfume(Document document) {
 
-		return new Perfume(document.getString("_id"), document.getString("name"), document.getString("brand"),
-				document.getString("fragranceFamily"), document.getInteger("volume"), document.getDouble("rating"));
+		return new Perfume(document.getString("_id"), document.getString("name"), document.getString(BRAND_FIELD),
+				document.getString(FRAGRANCE_FAMILY_FIELD), document.getInteger(VOLUME_FIELD),
+				document.getDouble(RATING_FIELD));
 	}
 }

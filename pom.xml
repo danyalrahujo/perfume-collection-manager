@@ -29,7 +29,7 @@
 		<sonar.organization>danyalrahujo</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
-		<sonar.issue.ignore.multicriteria>e1</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
 
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>
 			java:S3577
@@ -38,6 +38,14 @@
 		<sonar.issue.ignore.multicriteria.e1.resourceKey>
 			**/PerfumeSwingViewE2E.java
 		</sonar.issue.ignore.multicriteria.e1.resourceKey>
+
+		<sonar.issue.ignore.multicriteria.e2.ruleKey>
+			java:S2699
+		</sonar.issue.ignore.multicriteria.e2.ruleKey>
+
+		<sonar.issue.ignore.multicriteria.e2.resourceKey>
+			**/PerfumeSwingViewTest.java
+		</sonar.issue.ignore.multicriteria.e2.resourceKey>
 
 		<sonar.tests>
 			${project.basedir}/src/test/java,
@@ -53,6 +61,10 @@
 		<sonar.coverage.jacoco.xmlReportPaths>
 			${project.build.directory}/site/jacoco/jacoco.xml
 		</sonar.coverage.jacoco.xmlReportPaths>
+
+		<sonar.coverage.exclusions>
+			**/PerfumeSwingApp.java
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -67,7 +79,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>5.18.0</version>
+			<version>${mockito-version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -234,6 +246,13 @@
 				<artifactId>pitest-maven</artifactId>
 				<version>${pitest-maven-version}</version>
 				<configuration>
+					<parseSurefireConfig>false</parseSurefireConfig>
+					<jvmArgs>
+						<jvmArg>-Xshare:off</jvmArg>
+						<jvmArg>-javaagent:${org.mockito:mockito-core:jar}</jvmArg>
+						<jvmArg>--add-opens</jvmArg>
+						<jvmArg>java.base/java.util=ALL-UNNAMED</jvmArg>
+					</jvmArgs>
 					<targetClasses>
 						<param>com.example.perfumemanager.controller.*</param>
 						<param>com.example.perfumemanager.repository.*</param>

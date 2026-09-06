@@ -9,6 +9,8 @@ import com.example.perfumemanager.repository.MongoPerfumeRepository;
 import com.example.perfumemanager.view.swing.PerfumeSwingView;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class PerfumeSwingApp {
 
@@ -36,6 +38,17 @@ public class PerfumeSwingApp {
 			PerfumeManager perfumeManager = new PerfumeManager(repository, view);
 
 			view.setPerfumeManager(perfumeManager);
+			view.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					mongoClient.close();
+				}
+
+				@Override
+				public void windowClosed(WindowEvent e) {
+					mongoClient.close();
+				}
+			});
 
 			view.setVisible(true);
 

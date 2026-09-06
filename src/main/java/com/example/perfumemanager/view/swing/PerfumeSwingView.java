@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 
 import com.example.perfumemanager.controller.PerfumeManager;
 import com.example.perfumemanager.model.Perfume;
@@ -45,7 +45,7 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 
 	private DefaultListModel<Perfume> perfumeListModel;
 
-	private PerfumeManager perfumeManager;
+	private transient PerfumeManager perfumeManager;
 
 	/**
 	 * Create the frame.
@@ -53,24 +53,24 @@ public class PerfumeSwingView extends JFrame implements PerfumeView {
 	public PerfumeSwingView() {
 
 		setTitle("Perfume View");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 475, 472);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		GridBagLayout gbl_contentPane = new GridBagLayout();
+		GridBagLayout gblContentPane = new GridBagLayout();
 
-		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gblContentPane.columnWidths = new int[] { 0, 0, 0 };
 
-		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gblContentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gblContentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 
-		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
+		gblContentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
 
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(gblContentPane);
 
 		JLabel lblId = new JLabel("id");
 
